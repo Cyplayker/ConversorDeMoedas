@@ -3,6 +3,7 @@ const select = document.getElementById('currency-select');
 
 
 const dolar = 5.2; 
+const euro = 5.9;
 
 function convertedValues() {
     const inputReais = document.getElementById('input-real').value;
@@ -11,19 +12,24 @@ function convertedValues() {
 
     const result = inputReais / dolar;
 
-    // Formatando BRL
+    
     const realFormatado = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     }).format(inputReais);
 
-    // Formatando USD
+    
     const dolarFormatado = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
     }).format(result);
 
-    // Mostrando na tela
+    const euroFormatado = new Intl.NumberFormat('de-DE', {
+        style: 'currency',
+        currency: 'EUR'
+    }).format(result);
+
+    
     realValueText.innerHTML = realFormatado;
     currencyValueText.innerHTML = dolarFormatado;
 
@@ -33,6 +39,7 @@ function convertedValues() {
 changecurrency = () => { 
     const currencyName = document.getElementById('currency-name');
     const currencyImage = document.getElementById('currency-image');
+    
     if (select.value === '€ Euro') {
         currencyName.innerHTML = 'Euro';
         currencyImage.src = './assets/euro.png';
