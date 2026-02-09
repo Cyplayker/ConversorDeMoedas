@@ -1,16 +1,13 @@
 const button = document.getElementById('converted-button');
 const select = document.getElementById('currency-select');
 
-
-const dolar = 5.2; 
-const euro = 5.9;
+const dolar = 5.2;
+const euro = 7.2;
 
 function convertedValues() {
-    const inputReais = document.getElementById('input-real').value;
+    const inputReais = Number(document.getElementById('input-real').value);
     const realValueText = document.getElementById('real-value-text');
     const currencyValueText = document.getElementById('currency-value-text');
-
-    const result = inputReais / dolar;
 
     
     const realFormatado = new Intl.NumberFormat('pt-BR', {
@@ -18,36 +15,43 @@ function convertedValues() {
         currency: 'BRL'
     }).format(inputReais);
 
-    
-    const dolarFormatado = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-    }).format(result);
-
-    const euroFormatado = new Intl.NumberFormat('de-DE', {
-        style: 'currency',
-        currency: 'EUR'
-    }).format(result);
-
-    
     realValueText.innerHTML = realFormatado;
-    currencyValueText.innerHTML = dolarFormatado;
 
-    console.log(result);
+    let valorConvertido;
+
+    
+    if (select.value === 'euro') {
+        valorConvertido = inputReais / euro;
+
+        currencyValueText.innerHTML = new Intl.NumberFormat('de-DE', {
+            style: 'currency',
+            currency: 'EUR'
+        }).format(valorConvertido);
+
+    } else {
+        valorConvertido = inputReais / dolar;
+
+        currencyValueText.innerHTML = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(valorConvertido);
+    }
 }
 
-changecurrency = () => { 
+
+function changecurrency() {
     const currencyName = document.getElementById('currency-name');
     const currencyImage = document.getElementById('currency-image');
-    
-    if (select.value === '€ Euro') {
+
+    if (select.value === 'euro') {
         currencyName.innerHTML = 'Euro';
         currencyImage.src = './assets/euro.png';
     } else {
         currencyName.innerHTML = 'Dólar americano';
         currencyImage.src = './assets/eua.png';
     }
+        convertedValues();
 }
 
 button.addEventListener('click', convertedValues);
-select.addEventListener("change", changecurrency);
+select.addEventListener('change', changecurrency);
